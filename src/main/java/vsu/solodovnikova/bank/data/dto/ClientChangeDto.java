@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class ClientCreateDto {
+public class ClientChangeDto {
     private final String name;
     private final String surname;
 }

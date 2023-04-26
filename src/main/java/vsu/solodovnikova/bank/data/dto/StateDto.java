@@ -8,6 +8,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 public class StateDto {
-    final private Date date;
-    final private double amount;
+    private final Integer id;
+    private final Date date;
+    private final double amount;
 }

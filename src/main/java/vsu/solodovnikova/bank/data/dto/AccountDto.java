@@ -3,12 +3,12 @@ package vsu.solodovnikova.bank.data.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.UUID;
+import java.util.List;
 
 @AllArgsConstructor
 @Getter
 public class AccountDto {
-    final private UUID number;
-    final private UUID idClient;
-    final private double amount;
+    private final Integer number;
+    private final double amount;
+    private final List<RequestDto> requests;
 }
