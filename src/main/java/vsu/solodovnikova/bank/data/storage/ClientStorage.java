@@ -1,19 +1,13 @@
 package vsu.solodovnikova.bank.data.storage;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import vsu.solodovnikova.bank.data.entity.ClientEntity;
 
-import java.util.*;
+import java.util.Optional;
+
 
 @Repository
-public class ClientStorage {
-    private final Map<UUID, ClientEntity> clients = new HashMap<>();
-
-    public void addClient(ClientEntity clientEntity){
-        clients.put(clientEntity.getId(), clientEntity);
-    }
-
-    public List<ClientEntity> getClients(){
-        return clients.values().stream().toList();
-    }
+public interface ClientStorage extends JpaRepository<ClientEntity, Integer> {
+    ClientEntity findClientEntityById(Integer id);
 }

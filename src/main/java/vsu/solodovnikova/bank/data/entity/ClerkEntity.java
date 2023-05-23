@@ -1,15 +1,29 @@
 package vsu.solodovnikova.bank.data.entity;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.UUID;
+import java.util.Set;
 
-@AllArgsConstructor
+
+@Entity
+@NoArgsConstructor
 @Getter
+@Setter
+@Table(name = "clerk")
 public class ClerkEntity {
-    final private UUID id;
-    final private String name;
-    final private String surname;
-    private final int workspace;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "surname")
+    private String surname;
+    @Column(name = "workspace")
+    private int workspace;
+    @OneToMany(mappedBy="id", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<RequestEntity> requests;
 }

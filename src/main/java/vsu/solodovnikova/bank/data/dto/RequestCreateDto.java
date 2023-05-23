@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Date;
-import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
 public class RequestCreateDto {
-    final private UUID idClient;
-    final private UUID idClerk;
+    final private Integer accountNumber;
+    final private Integer clerkId;
     final private double amount;
     final private int percent;
     final private Date date;

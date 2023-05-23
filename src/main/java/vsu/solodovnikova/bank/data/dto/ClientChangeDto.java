@@ -5,8 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class ClientDto {
-    final private Integer id;
-    final private String name;
-    final private String surname;
+public class ClientChangeDto {
+    private final String name;
+    private final String surname;
 }

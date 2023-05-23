@@ -1,19 +1,13 @@
 package vsu.solodovnikova.bank.data.storage;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import vsu.solodovnikova.bank.data.entity.StateEntity;
 
-import java.util.*;
-
 @Repository
-public class StateStorage {
-    private final Map<Date, StateEntity> states = new HashMap<>();
-
-    public void addState(StateEntity stateEntity){
-        states.put(stateEntity.getDate(), stateEntity);
-    }
-
-    public List<StateEntity> getStates(){
-        return states.values().stream().toList();
-    }
+public interface StateStorage extends JpaRepository<StateEntity, Integer> {
+    @Query("select state from StateEntity state order by state.date desc FETCH FIRST 1 ROW ONLY")
+    StateEntity findLastState();
 }
