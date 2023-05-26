@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vsu.solodovnikova.bank.data.dto.*;
-import vsu.solodovnikova.bank.data.entity.ClientEntity;
 import vsu.solodovnikova.bank.data.mapper.ClientMapper;
 import vsu.solodovnikova.bank.data.storage.ClientStorage;
 
@@ -31,10 +30,7 @@ public class ClientService {
 
     @Transactional
     public void changeClient(Integer id, ClientChangeDto clientChangeDto) {
-        ClientEntity client = clientStorage.findClientEntityById(id);
-        client.setName(clientChangeDto.getName());
-        client.setSurname(clientChangeDto.getSurname());
-        clientStorage.save(client);
+        clientStorage.save(clientMapper.toEntity(id, clientChangeDto));
     }
 
     @Transactional
