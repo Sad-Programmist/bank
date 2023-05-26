@@ -11,7 +11,7 @@ public class RequestDto {
     final private Integer id;
     final private Integer accountNumber;
     final private Integer clerkId;
-    final private double amount;
+    final private double requestAmount;
     final private int percent;
     final private Date date;
     final private int period;

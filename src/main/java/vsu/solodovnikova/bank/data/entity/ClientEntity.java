@@ -1,7 +1,6 @@
 package vsu.solodovnikova.bank.data.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +20,6 @@ public class ClientEntity {
     private String name;
     @Column(name = "surname")
     private String surname;
-    @OneToMany(mappedBy="number", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<AccountEntity> accounts;
 }

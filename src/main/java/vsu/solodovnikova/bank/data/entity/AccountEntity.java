@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "account")
 public class AccountEntity {
     @Id
@@ -20,6 +22,6 @@ public class AccountEntity {
     private ClientEntity client;
     @Column(name = "amount")
     private double amount;
-    @OneToMany(mappedBy="id", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<RequestEntity> requests;
 }

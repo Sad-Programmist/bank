@@ -7,6 +7,7 @@ import vsu.solodovnikova.bank.data.dto.ClerkChangeDto;
 import vsu.solodovnikova.bank.data.dto.ClerkCreateDto;
 import vsu.solodovnikova.bank.data.dto.ClerkDto;
 import vsu.solodovnikova.bank.data.entity.ClerkEntity;
+import vsu.solodovnikova.bank.data.mapper.ClerkMapper;
 import vsu.solodovnikova.bank.data.storage.ClerkStorage;
 
 import java.util.List;
@@ -16,21 +17,18 @@ import java.util.stream.Collectors;
 @Service
 public class ClerkService {
     private final ClerkStorage clerkStorage;
+    private final ClerkMapper clerkMapper;
 
     @Transactional
     public void addClerk(ClerkCreateDto clerkCreateDto) {
-        ClerkEntity clerk = new ClerkEntity();
-        clerk.setName(clerkCreateDto.getName());
-        clerk.setSurname(clerkCreateDto.getSurname());
-        clerk.setWorkspace(clerkCreateDto.getWorkspace());
-        clerkStorage.save(clerk);
+        clerkStorage.save(clerkMapper.toEntity(clerkCreateDto));
     }
 
     @Transactional
     public List<ClerkDto> getClerks() {
         return clerkStorage.findAll()
                 .stream()
-                .map(clerk -> new ClerkDto(clerk.getId(), clerk.getName(), clerk.getSurname(), clerk.getWorkspace()))
+                .map(clerkMapper::toDto)
                 .collect(Collectors.toList());
     }
 

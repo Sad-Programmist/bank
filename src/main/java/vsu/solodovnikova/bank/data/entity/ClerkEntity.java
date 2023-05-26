@@ -1,7 +1,6 @@
 package vsu.solodovnikova.bank.data.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +23,6 @@ public class ClerkEntity {
     private String surname;
     @Column(name = "workspace")
     private int workspace;
-    @OneToMany(mappedBy="id", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="clerk", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<RequestEntity> requests;
 }

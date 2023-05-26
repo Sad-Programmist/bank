@@ -6,8 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import vsu.solodovnikova.bank.data.dto.RequestCreateDto;
 import vsu.solodovnikova.bank.data.dto.RequestDto;
 import vsu.solodovnikova.bank.data.entity.AccountEntity;
-import vsu.solodovnikova.bank.data.entity.RequestEntity;
+import vsu.solodovnikova.bank.data.entity.ClerkEntity;
 import vsu.solodovnikova.bank.data.entity.StateEntity;
+import vsu.solodovnikova.bank.data.mapper.RequestMapper;
 import vsu.solodovnikova.bank.data.storage.AccountStorage;
 import vsu.solodovnikova.bank.data.storage.ClerkStorage;
 import vsu.solodovnikova.bank.data.storage.RequestStorage;
@@ -23,31 +24,25 @@ public class RequestService {
     private final AccountStorage accountStorage;
     private final ClerkStorage clerkStorage;
     private final StateStorage stateStorage;
+    private final RequestMapper requestMapper;
 
     @Transactional
     public void addRequest(RequestCreateDto requestCreateDto) {
-        RequestEntity request = new RequestEntity();
         AccountEntity account = accountStorage.findAccountEntityByNumber(requestCreateDto.getAccountNumber());
-        request.setAccount(account);
+        ClerkEntity clerk = null;
         if (requestCreateDto.getClerkId() != null)
-            request.setClerk(clerkStorage.findClerkEntityById(requestCreateDto.getClerkId()));
-        double amount = account.getAmount() + requestCreateDto.getAmount();
-        request.setAmount(amount);
-        request.setPercent(requestCreateDto.getPercent());
-        request.setDate(requestCreateDto.getDate());
-        request.setPeriod(requestCreateDto.getPeriod());
-        requestStorage.save(request);
+            clerk = clerkStorage.findClerkEntityById(requestCreateDto.getClerkId());
+        requestStorage.save(requestMapper.toEntity(requestCreateDto, account, clerk));
 
         stateStorage.save(new StateEntity(requestCreateDto.getDate(), stateStorage.findLastState().getAmount() -
-                requestCreateDto.getAmount()));
+                requestCreateDto.getRequestAmount()));
     }
 
     @Transactional
     public List<RequestDto> getRequests() {
         return requestStorage.findAll()
                 .stream()
-                .map(request -> new RequestDto(request.getId(), request.getAccount().getNumber(), request.getClerk().getId(),
-                        request.getAmount(), request.getPercent(), request.getDate(), request.getPeriod()))
+                .map(requestMapper::toDto)
                 .collect(Collectors.toList());
     }
 }

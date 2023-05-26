@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vsu.solodovnikova.bank.data.dto.*;
 import vsu.solodovnikova.bank.data.entity.ClientEntity;
+import vsu.solodovnikova.bank.data.mapper.ClientMapper;
 import vsu.solodovnikova.bank.data.storage.ClientStorage;
 
 import java.util.List;
@@ -14,19 +15,17 @@ import java.util.stream.Collectors;
 @Service
 public class ClientService {
     private final ClientStorage clientStorage;
+    private final ClientMapper clientMapper;
     @Transactional
     public void addClient(ClientCreateDto clientCreateDto) {
-        ClientEntity client = new ClientEntity();
-        client.setName(clientCreateDto.getName());
-        client.setSurname(clientCreateDto.getSurname());
-        clientStorage.save(client);
+        clientStorage.save(clientMapper.toEntity(clientCreateDto));
     }
 
     @Transactional
     public List<ClientDto> getClients() {
         return clientStorage.findAll()
                 .stream()
-                .map(client -> new ClientDto(client.getId(), client.getName(), client.getSurname()))
+                .map(clientMapper::toDto)
                 .collect(Collectors.toList());
     }
 
